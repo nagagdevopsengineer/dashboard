@@ -40,4 +40,4 @@ deploy-arrivnow-dev:
       - kubectl get svc -n dashboard -o wide
   when: always
   only:
-    - develop
+    - master
