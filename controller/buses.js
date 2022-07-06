@@ -54,7 +54,7 @@ const getAllBuses = async (queryInterface) => {
       abc.push(obj[item])
     })
     console.log(abc, "abc")
-    return busdetail
+    return count
     //   let query = `SELECT created_at from buses`;
     // //   query += ` FROM ${queryInterface.sequelize.options.schema}.buses;`;
     // return  queryInterface.sequelize.query(query);
