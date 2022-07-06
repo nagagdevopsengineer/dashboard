@@ -1,0 +1,43 @@
+image: docker:19.03.12
+
+variables:
+  CONTAINER_IMAGE: "vapprtech/node:latest"
+  DOCKER_TLS_CERTDIR: "/certs"
+
+services:
+  - docker:19.03.12-dind
+
+stages:          # List of stages for jobs, and their order of execution
+  - build_image
+  - deploy_arrivnow-dev
+
+docker-build-image:
+  stage: build_image
+  script:
+    - docker info
+    - docker login -u ${CI_REGISTRY_USER} -p ${CI_REGISTRY_PASSWORD}
+    - docker build -t ${CONTAINER_IMAGE} .
+    - docker tag ${CONTAINER_IMAGE} ${CONTAINER_IMAGE}
+    - docker tag ${CONTAINER_IMAGE} vapprtech/node:latest
+    - docker push ${CONTAINER_IMAGE}
+  when: always
+  only:
+    - master
+
+
+deploy-arrivnow-dev:
+  stage: deploy_arrivnow-dev
+  #needs: ["docker-build-image"]
+  image: vapprtech/awskubectl:latest
+  before_script:
+    - aws eks update-kubeconfig --name arrivnow-dev --region us-east-2
+    - kubectl create namespace dashboard  --dry-run=client -o yaml | kubectl apply -f -
+  script:
+     # - sed -i "s/latest/${CI_COMMIT_SHORT_SHA}/g" manifest/trackingdeployment.yaml
+      - kubectl apply -f manifest
+      - kubectl rollout restart deployment dashboard -n dashboard
+      - kubectl get pods -n dashboard
+      - kubectl get svc -n dashboard -o wide
+  when: always
+  only:
+    - master
