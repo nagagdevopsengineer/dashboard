@@ -21,47 +21,44 @@ const getAllBuses = async (queryInterface) => {
     data?.map((item) => {
       busdetail.push(moment(item.created_at).format("MM"))
     })
-    console.log(busdetail)
+    
     const count = {}
-    for (const element of busdetail) {
-      if (count[element]) {
-        count[element] += 1
-      } else {
-        count[element] = 1
-      }
-    }
-
-    console.log(count, "cc")
 
     const obj = {
-      JAN: 0,
-      FEB: 0,
-      MAR: 0,
-      APR: 0,
-      MAY: 0,
-      JUN: 0,
-      JUL: 0,
-      AUG: 0,
-      SEP: 0,
-      OCT: 0,
-      NOV: 0,
-      DEC: 0
+      "01": 0,
+      "02": 0,
+      "03": 0,
+      "04": 0,
+      "05": 0,
+      "06": 0,
+      "07": 0,
+      "08": 0,
+      "09": 0,
+      10: 0,
+      11: 0,
+      12: 0
     }
-    const abc = []
-    Object.keys(obj).map((item) => {
-      console.log(item, obj[item])
 
-      abc.push(obj[item])
+    busdetail?.map((item) => {
+      obj[item] = obj[item] + 1
     })
-    console.log(abc, "abc")
-    return count
-    //   let query = `SELECT created_at from buses`;
-    // //   query += ` FROM ${queryInterface.sequelize.options.schema}.buses;`;
-    // return  queryInterface.sequelize.query(query);
-    //   return {
-    //     error: '',
-    //     data: busDetails
-    //   };
+    
+
+    let index = Object.keys(obj).sort()
+
+    // iterate method
+    let details = []
+    index.forEach((key) => {
+      console.log(key, obj[key])
+      details.push(obj[key])
+    })
+
+    // or array of sorted object
+    let sortedArrayOfObject = index.map((v) => {
+      return { key: v, value: obj[v] }
+    })
+    
+    return details
   } catch (error) {
     console.log(error)
     return {
