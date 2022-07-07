@@ -8,13 +8,13 @@ const { employeeotps } = require("../models")
 
 const getAllemployeeOtps = async (queryInterface) => {
   console.log(queryInterface, "query")
-  let db = new Date()
-  console.log(db, db)
+  let today = new Date().toISOString().split('T')[0]
+
   try {
     console.log("here")
 
     const data = await sequelize.query(
-      "SELECT is_boarded = true FROM employeeotps WHERE created_at = '2022-07-07T06:24:11.737Z'",
+      `SELECT COUNT(*) FROM employeeotps  WHERE  created_at  >= '${today}'`,
       {
         type: QueryTypes.SELECT
       }
@@ -29,7 +29,29 @@ const getAllemployeeOtps = async (queryInterface) => {
     }
   }
 }
-
+const getAllboarding = async (queryInterface) => {
+    console.log(queryInterface, "query")
+    let today = new Date().toISOString().split('T')[0]
+  
+    try {
+      console.log("here")
+  
+      const data = await sequelize.query(
+        `SELECT COUNT(*) FROM employeeotps  WHERE  is_boarded= true AND  created_at  >= '${today}'`,
+        {
+          type: QueryTypes.SELECT
+        }
+      )
+    
+      return data
+    } catch (error) {
+      console.log(error)
+      return {
+        error: "Something went wrong",
+        data: ""
+      }
+    }
+  }
 const getAllRatings = async (queryInterface) => {
   console.log(queryInterface, "query")
 
@@ -82,5 +104,6 @@ const getAllRatings = async (queryInterface) => {
 }
 module.exports = {
   getAllemployeeOtps,
-  getAllRatings
+  getAllRatings,
+  getAllboarding
 }

@@ -7,27 +7,7 @@ const {
    
   } = require('../controller/buses');
 const { getAllRoutes } = require('../controller/routes');
-  const {getAllemployeeOtps, getAllRatings} = require('../controller/employeeotps')
-//   const {getAllRatings} = require('../controller/employeeotps')
-
-// router.route('/all').get(async (req, res) => {
-//     const response = await getAllBrands();
-//     res.send({
-//       response
-//     });
-//   });
-
-
-// const busController = require("../controller/bus").bus
-
-// module.exports = app => {
-//   app.get("/api", (req, res) => {
-//     res.status(200).send({
-//       data: "Welcome Node Sequlize API v1",
-//     })
-//   })
-//   app.get("/api/buses", busController.getAllUsers)
-// }
+  const {getAllemployeeOtps, getAllRatings, getAllboarding} = require('../controller/employeeotps')
 
 router.route('/all').get(async (req, res) => {
     const response = await getAllBuses();
@@ -53,6 +33,12 @@ router.route('/employeeotps').get(async (req, res) => {
 
   router.route('/ratings').get(async (req, res) => {
     const response = await getAllRatings();
+    res.send({
+      response
+    });
+  });
+  router.route('/boardedemp').get(async (req, res) => {
+    const response = await getAllboarding();
     res.send({
       response
     });
