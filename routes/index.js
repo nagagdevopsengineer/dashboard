@@ -7,7 +7,8 @@ const {
    
   } = require('../controller/buses');
 const { getAllRoutes } = require('../controller/routes');
-  
+  const {getAllemployeeOtps, getAllRatings} = require('../controller/employeeotps')
+//   const {getAllRatings} = require('../controller/employeeotps')
 
 // router.route('/all').get(async (req, res) => {
 //     const response = await getAllBrands();
@@ -34,9 +35,7 @@ router.route('/all').get(async (req, res) => {
       response
     });
   });
-  module.exports={
-    routes:router
-}
+ 
 
 router.route('/routesall').get(async (req, res) => {
     const response = await getAllRoutes();
@@ -44,6 +43,23 @@ router.route('/routesall').get(async (req, res) => {
       response
     });
   });
+  
+router.route('/employeeotps').get(async (req, res) => {
+    const response = await getAllemployeeOtps();
+    res.send({
+      response
+    });
+  });
+
+  router.route('/ratings').get(async (req, res) => {
+    const response = await getAllRatings();
+    res.send({
+      response
+    });
+  });
+  
+
+
   module.exports={
     routes:router
 }

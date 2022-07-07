@@ -53,10 +53,7 @@ const getAllBuses = async (queryInterface) => {
       details.push(obj[key])
     })
 
-    // or array of sorted object
-    let sortedArrayOfObject = index.map((v) => {
-      return { key: v, value: obj[v] }
-    })
+   
     
     return details
   } catch (error) {
