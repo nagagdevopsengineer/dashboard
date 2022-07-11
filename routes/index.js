@@ -7,7 +7,8 @@ const {
    
   } = require('../controller/buses');
 const { getAllRoutes } = require('../controller/routes');
-  const {getAllemployeeOtps, getAllRatings, getAllboarding} = require('../controller/employeeotps')
+  const {getAllemployeeOtps, getAllRatings, getAllboarding, getAllEmployeeOtps} = require('../controller/employeeotps')
+  const {getAllTrips, getTotalTrips} = require('../controller/trips')
 
 router.route('/all').get(async (req, res) => {
     const response = await getAllBuses();
@@ -39,6 +40,25 @@ router.route('/employeeotps').get(async (req, res) => {
   });
   router.route('/boardedemp').get(async (req, res) => {
     const response = await getAllboarding();
+    res.send({
+      response
+    });
+  });
+  router.route('/alltrips').get(async (req, res) => {
+    const response = await getAllTrips();
+    res.send({
+      response
+    });
+  });
+  router.route('/allemployeeotps').get(async (req, res) => {
+    const response = await getAllEmployeeOtps();
+    res.send({
+      response
+    });
+  });
+
+  router.route('/totaltrips').get(async (req, res) => {
+    const response = await getTotalTrips();
     res.send({
       response
     });

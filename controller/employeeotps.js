@@ -8,7 +8,7 @@ const { employeeotps } = require("../models")
 
 const getAllemployeeOtps = async (queryInterface) => {
   console.log(queryInterface, "query")
-  let today = new Date().toISOString().split('T')[0]
+  let today = new Date().toISOString().split("T")[0]
 
   try {
     console.log("here")
@@ -19,7 +19,7 @@ const getAllemployeeOtps = async (queryInterface) => {
         type: QueryTypes.SELECT
       }
     )
-  
+
     return data
   } catch (error) {
     console.log(error)
@@ -30,19 +30,55 @@ const getAllemployeeOtps = async (queryInterface) => {
   }
 }
 const getAllboarding = async (queryInterface) => {
-    console.log(queryInterface, "query")
-    let today = new Date().toISOString().split('T')[0]
-  
+  console.log(queryInterface, "query")
+  let today = new Date().toISOString().split("T")[0]
+
+  try {
+    console.log("here")
+
+    const data = await sequelize.query(
+      `SELECT COUNT(*) FROM employeeotps  WHERE  is_boarded= true AND  created_at  >= '${today}'`,
+      {
+        type: QueryTypes.SELECT
+      }
+    )
+
+    return data
+  } catch (error) {
+    console.log(error)
+    return {
+      error: "Something went wrong",
+      data: ""
+    }
+  }
+}
+
+const getAllStops = async (queryInterface) => {
+  try {
+    console.log("here")
+
+    const data = await sequelize.query(`SELECT * `, {
+      type: QueryTypes.SELECT
+    })
+
+    return data
+  } catch (error) {
+    console.log(error)
+    return {
+      error: "Something went wrong",
+      data: ""
+    }
+  }
+}
+
+const getAllEmployeeOtps = async (queryInterface) => {
     try {
       console.log("here")
   
-      const data = await sequelize.query(
-        `SELECT COUNT(*) FROM employeeotps  WHERE  is_boarded= true AND  created_at  >= '${today}'`,
-        {
-          type: QueryTypes.SELECT
-        }
-      )
-    
+      const data = await sequelize.query(`SELECT *  FROM employeeotps`, {
+        type: QueryTypes.SELECT
+      })
+  
       return data
     } catch (error) {
       console.log(error)
@@ -68,31 +104,31 @@ const getAllRatings = async (queryInterface) => {
     data?.map((item) => {
       otps.push(item.ratings)
     })
-    console.log(otps, 'd')
+    console.log(otps, "d")
     const obj = {
-        "0":0,
-        "1": 0,
-        "2": 0,
-        "3": 0,
-        "4": 0,
-        "5": 0
-      }
-  
-      otps?.map((item) => {
-        obj[item] = obj[item] + 1
-      })
-  
-      let index = Object.keys(obj).sort()
-  
-      // iterate method
-      let details = []
-      index.forEach((key) => {
-        console.log(key, obj[key])
-        details.push(obj[key])
-      })
-  
-      console.log(details)
-  
+      0: 0,
+      1: 0,
+      2: 0,
+      3: 0,
+      4: 0,
+      5: 0
+    }
+
+    otps?.map((item) => {
+      obj[item] = obj[item] + 1
+    })
+
+    let index = Object.keys(obj).sort()
+
+    // iterate method
+    let details = []
+    index.forEach((key) => {
+      console.log(key, obj[key])
+      details.push(obj[key])
+    })
+
+    console.log(details)
+
     return details
   } catch (error) {
     console.log(error)
@@ -105,5 +141,6 @@ const getAllRatings = async (queryInterface) => {
 module.exports = {
   getAllemployeeOtps,
   getAllRatings,
-  getAllboarding
+  getAllboarding,
+  getAllEmployeeOtps
 }
